@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/invider/jam.fs"
+    "url": "https://github.com/invider/jam.fs.git"
   },
   "author": "Igor Khotin",
   "license": "BSD 3-Clause License"
