@@ -8,17 +8,17 @@ var lib = require('./lib')
 // settings
 var port = 8000
 var staticPath = './static' 
-var sysPath = './node_modules/jam-cli/core/'
+var sysPath = './node_modules/jam.fs/core/'
 var basePath = './mod' 
 var dynamic = true
 
 var mount = {
-    '/jam': './node_modules/jam-cli/core',
-    '/ext': './node_modules/jam-cli/core',
+    '/jam': './node_modules/jam.fs/core',
+    '/ext': './node_modules/jam.fs/core',
     '/mod': '.',
 }
 
-console.log('jam cli v0.1')
+console.log('jam core staring...')
 
 const args = process.argv;
 for (let i = 2; i < args.length; i++) {
