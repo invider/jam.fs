@@ -3,7 +3,7 @@
 # collider.jam cli bash script
 
 # env
-JAM="jam-cli"
+JAM="jam.fs"
 NODE="node"
 NPM="npm"
 

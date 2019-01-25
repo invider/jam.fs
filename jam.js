@@ -1,8 +1,5 @@
 'use strict'
 
-const args = process.argv;
-console.log('args: ' + args);
-
 var express = require('express');
 var app = express();
 
