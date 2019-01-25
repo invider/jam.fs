@@ -1,0 +1,48 @@
+<html>
+    <head><title>collider.jam</title></head>
+
+    <script src="jam/fix.js"></script>
+    <body>
+    <script>
+        // declare a dot actor
+        this['@lab/dot'] = {
+
+            // state
+            dt: 0,
+            Z: 0,
+
+            // evolve
+            evo: function(delta) {
+                // init x and y if necessary
+                if (!this.x || this.x < 0 || this.x > scene.env.width || this.y < 0 || this.y > scene.env.height) {
+                    this.x = this._.env.width/2
+                    this.y = this._.env.height/2
+                }
+
+                if (this.dt <= 0) {
+                    // new time and direction
+                    this.dt = 1 + Math.random() * 3
+                    this.dx = (50 + Math.random() * 40) * (Math.random() - 0.5)
+                    this.dy = (50 + Math.random() * 40) * (Math.random() - 0.5)
+                }
+
+                // move point and delta time
+                this.x += this.dx * delta
+                this.y += this.dy * delta
+                this.dt -= delta
+            },
+
+            // show the dot
+            draw: function() {
+                let ctx = this._.ctx
+                // clear the screen
+                ctx.fillStyle = "#330044"
+                ctx.fillRect(0, 0, canvas.width, canvas.height)
+                // draw dot
+                ctx.fillStyle="#FF0000";
+                ctx.fillRect(this.x, this.y, 3, 3); 
+            }
+        }
+    </script>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "jam.fs",
+  "version": "0.1.0",
+  "description": "collider.jam core fs",
+  "main": "jam.js",
+  "dependencies": {
+    "express": "latest",
+    "express-ws": "latest",
+    "fs": "latest",
+    "socket.io": "latest",
+    "npm": "latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/invider/jam.fs"
+  },
+  "author": "Igor Khotin",
+  "license": "BSD 3-Clause License"
+}

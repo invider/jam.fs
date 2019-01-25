@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+
+# collider.jam cli bash script
+
+# env
+JAM="jam-cli"
+NODE="node"
+NPM="npm"
+
+# === flags ===
+# node.js 
+NODE_FLAG=1
+type "$NODE" >/dev/null 2>&1 || { unset NODE_FLAG; }
+# npm 
+NPM_FLAG=1
+type "$NPM" >/dev/null 2>&1 || { unset NPM_FLAG; }
+# package.json
+if [ -f ./package.json ]; then
+    PACKAGE_FLAG=1
+fi
+# node modules
+if [ -d ./node_modules ]; then
+    MODULES_FLAG=1
+fi
+# jam core
+if [ -d ./node_modules/$JAM ]; then
+    JAM_FLAG=1
+fi
+
+
+init() {
+    NAME=$1
+    echo "Generating project [$NAME]"
+
+    echo -n 'Generating package.json...'
+    echo -e "{
+      \"name\": \"$NAME\",
+      \"version\": \"0.0.1\",
+      \"description\": \"collider.jam project\",
+      \"keywords\": \"collider,jam,mod\",
+      \"dependencies\": {
+          \"$JAM\": \"git+ssh://git@hub.ikhotin.com/var/git/jam-cli.git\"
+      },
+      \"author\": \"\",
+      \"license\": \"MIT\"\n}" > package.json
+      echo ' done'
+
+      echo 'Installing modules'
+      $NPM install
+      echo `du -sh ./node_modules | cut -f 1`' of modules installed'
+
+      BOOT="dot"
+      echo "bootstraping from [$BOOT]"
+      cp -r ./node_modules/$JAM/bootstrap/$BOOT/* ./
+}
+
+jam() {
+    node ./node_modules/$JAM/jam.js
+}
+
+cmd() {
+    echo "[command] $1"
+
+    if [[ $1 = "update" ]]; then
+        echo 'updating...'
+        npm update
+
+    elif [[ $1 = "help" ]]; then
+        echo 'helping'
+
+    elif [[ $1 = "init" ]]; then
+        echo 'project is already generated!'
+        exit 11
+
+    else
+        node ./node_modules/$JAM/jam.js $1
+
+    fi
+}
+
+if [[ ! $NODE_FLAG || ! $NPM_FLAG ]]; then
+    echo 'No Node.js found!'
+    echo 'You must install Node.js & npm in order to use collider.jam cli'
+    exit 1
+fi
+
+if [[ ! $PACKAGE_FLAG || ! $JAM_FLAG ]]; then
+    # no collider.jam, try to init
+    echo 'No collider jam core detected!'
+
+    if [[ $1 = "init" ]]; then
+        NAME="${PWD##*/}"
+        init $NAME
+
+    else
+        echo 'You must init the project first'
+        echo 'Try ./jam init'
+        exit 2
+
+    fi
+
+else
+    if [[ -z $1 ]]; then
+        jam
+    else
+        cmd $1
+    fi
+
+fi
+
