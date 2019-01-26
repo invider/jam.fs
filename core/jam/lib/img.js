@@ -24,6 +24,7 @@ TileSet.prototype.draw = function(tilex, x, y, w, h) {
         this.ctx.imageSmoothingEnabled = this.smooth
         this.ctx.drawImage(this.img, ix, iy, this.tw, this.th, x, y, w, h)
     } else {
+        debugger;
         console.error("No context");
     }
 }
