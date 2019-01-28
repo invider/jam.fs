@@ -503,17 +503,23 @@ let evalLoadedContent = function(script, _) {
 
             // provide lexical scope for mod context and scope object for this. definitions
             let code = '(function ' + name + '(_, ctx, module, sys, lib, res, dna, env, lab, mod, log, trap) {'
-                + "\n /* path: " + script.path + "*/\n"
-                + "\\# sourceURL=" + script.path + ";"
+                + "\n/* path: " + script.path + "*/\n"
                 + script.src
             + '}).call(scope, __, __.ctx, module, __.sys, __.lib, __.res, __.dna, __.env, __.lab, __.mod, __.log, __.trap)'
-            let val;
+            + '\n//# sourceURL=' + script.origin
+            
+
+            let val = eval(code)
+            /*
+            // TODO is there a better way to handle evaluation errors?
             try{
                 val = eval(code)
             } catch (e) {
-                console.error(`Error executing file: ${script.path}`)
+                console.error(`Error executing file: ${script.origin}`)
+                console.log(code)
                 throw (e);
             }
+            */
 
 
             // apply definitions
@@ -1185,6 +1191,7 @@ Mod.prototype.batchLoad = function(batch, context, src, base, path, ext) {
                 let h = parseInt(wh[1])
                 _.res._execList[batch].push({
                     context: context,
+                    origin: src,
                     path: path,
                     base: base,
                     ext: 'fun',
@@ -1245,6 +1252,7 @@ Mod.prototype.batchLoad = function(batch, context, src, base, path, ext) {
                 // store it in the exec list
                 _.res._execList[batch].push({
                     context: context,
+                    origin: src,
                     path: path,
                     base: base,
                     ext: ext,
@@ -1270,6 +1278,7 @@ Mod.prototype.batchLoad = function(batch, context, src, base, path, ext) {
                 // file is loaded
                 _.res._execList[batch].push({
                     context: context,
+                    origin: src,
                     path: path,
                     base: base,
                     ext: ext,
@@ -1293,6 +1302,7 @@ Mod.prototype.batchLoad = function(batch, context, src, base, path, ext) {
                 // file is loaded
                 _.res._execList[batch].push({
                     context: context,
+                    origin: src,
                     path: path,
                     base: base,
                     ext: ext,
@@ -1308,6 +1318,7 @@ Mod.prototype.batchLoad = function(batch, context, src, base, path, ext) {
         this.log.sys('loader-' + batch, 'script: ' + target)
 
         this.res._included ++
+        // TODO should work only in development mode - no need in prod
         let usrc = src + "?" + Math.random() // fix possible cache issue
 
         // store current mod for async access
@@ -1321,6 +1332,7 @@ Mod.prototype.batchLoad = function(batch, context, src, base, path, ext) {
                 // store it in the exec list
                 _.res._execList[batch].push({
                     context: context,
+                    origin: src,
                     path: path,
                     base: base,
                     ext: ext,
