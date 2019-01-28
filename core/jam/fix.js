@@ -504,6 +504,7 @@ let evalLoadedContent = function(script, _) {
             // provide lexical scope for mod context and scope object for this. definitions
             let code = '(function ' + name + '(_, ctx, module, sys, lib, res, dna, env, lab, mod, log, trap) {'
                 + "\n /* path: " + script.path + "*/\n"
+                + "\\# sourceURL=" + script.path + ";"
                 + script.src
             + '}).call(scope, __, __.ctx, module, __.sys, __.lib, __.res, __.dna, __.env, __.lab, __.mod, __.log, __.trap)'
             let val;
