@@ -39,7 +39,7 @@ init() {
       \"description\": \"collider.jam project\",
       \"keywords\": \"collider,jam,mod\",
       \"dependencies\": {
-          \"$JAM\": \"git+ssh://git@hub.ikhotin.com/var/git/jam-cli.git\"
+          \"$JAM\": \"https://github.com/invider/jam.fs.git\"
       },
       \"author\": \"\",
       \"license\": \"MIT\"\n}" > package.json
